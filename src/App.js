@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import data from "./data.json";
+import Line from "./components/Line";
+import Footer from "./components/Footer";
+import Search from "./components/Search";
 
 function App() {
+  const [search, setSearch] = useState("");
+  const tab = [];
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].keywords.indexOf(search) !== -1) {
+      if (tab.length < 20) {
+        tab.push(
+          <Line key={i} title={data[i].title} symbol={data[i].symbol} />
+        );
+      } else {
+        break;
+      }
+    }
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Search search={search} setSearch={setSearch} />
+      {tab}
+      <Footer
+        tech={"React"}
+        techSite={"https://reactjs.org/"}
+        place={"Le Reacteur"}
+        placeSite={"https://www.lereacteur.io/"}
+        author={"Boris"}
+        linkedin={"https://www.linkedin.com/in/boris-labianca-01a52871/"}
+      />
     </div>
   );
 }
